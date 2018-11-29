@@ -38,6 +38,16 @@
       <Pack>true</Pack>
     </Content>
   </ItemGroup>
+  <ItemGroup Label="AddSymbols">
+    <Content Condition="'$(Configuration)'=='Debug' AND '$(IncludeSymbols)'=='true'" Include="bin\Debug\*.pdb">
+      <Pack>true</Pack>
+     <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
+   <Content Condition="'$(Configuration)'=='Release'  AND '$(IncludeSymbols)'=='true'" Include="bin\Release\*.pdb">
+      <Pack>true</Pack>
+     <PackagePath>lib\$(TargetFramework)</PackagePath>
+    </Content>
+  </ItemGroup>
 
   <Import Project="$(BuildCommonDirectory)common.targets"/>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
