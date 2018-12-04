@@ -737,5 +737,22 @@ namespace NuGet.Versioning.Test
 
             Assert.Equal(isEquals, range1.Equals(range2));
         }
+
+        [Theory]
+        [InlineData("1.0.0")]
+        [InlineData("[1.0.0,)")]
+        [InlineData("1.1.*")]
+        [InlineData("*")]
+        [InlineData("(, )")]
+        public void VersionRange_NormalizationRoundtrips(string versionString)
+        {
+            var range = VersionRange.Parse(versionString);
+
+            var roundtripVersion = VersionRange.Parse(range.ToNormalizedString());
+
+            Assert.True(range.Equals(roundtripVersion), "The version range model is inconsistent");
+            Assert.Equal(range.ToNormalizedString(), roundtripVersion.ToNormalizedString());
+
+        }
     }
 }
