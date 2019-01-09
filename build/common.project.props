@@ -45,6 +45,7 @@
     <VSServicesVersion>16.144.1-preview</VSServicesVersion>
     <VSComponentsVersion>16.0.189-g83e7c53a57</VSComponentsVersion>
     <SystemPackagesVersion>4.3.0</SystemPackagesVersion>
+    <RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
   </PropertyGroup>
 
   <!-- Defaults -->

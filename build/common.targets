@@ -21,6 +21,10 @@
     <Compile Include="$(BuildCommonDirectory)TestShared\*.cs" />
   </ItemGroup>
 
+  <PropertyGroup Condition=" $(Configuration) == 'Release' ">
+    <RestoreLockedMode>true</RestoreLockedMode>
+  </PropertyGroup>
+
   <ImportGroup Condition=" '$(SkipSigning)' != 'true' ">
     <Import Project="sign.targets" />
   </ImportGroup>
