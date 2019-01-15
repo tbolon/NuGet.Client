@@ -16,13 +16,13 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1"
+          "NuGet.Frameworks": "5.0.0-preview2"
         }
       },
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -32,8 +32,8 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.Versioning": {
@@ -613,7 +613,7 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1",
+          "NuGet.Frameworks": "5.0.0-preview2",
           "System.Diagnostics.Process": "4.3.0",
           "System.Threading.Thread": "4.3.0"
         }
@@ -621,7 +621,7 @@
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
+          "NuGet.Common": "5.0.0-preview2",
           "System.Security.Cryptography.ProtectedData": "4.3.0"
         }
       },
@@ -632,8 +632,8 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1",
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0"
         }
       },

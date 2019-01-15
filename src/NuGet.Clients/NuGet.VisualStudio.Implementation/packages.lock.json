@@ -339,14 +339,10 @@
       },
       "Microsoft.VisualStudio.Shell.Interop.12.0": {
         "type": "Transitive",
-        "resolved": "12.0.30110",
-        "contentHash": "M68uDVxk4bwwMWe5zKofpp0IIm11gPjpVvLg7+vY4r20ClK60KqCxlAx6Ak3Q+yfjAG/H4z7Iw98NFdvfRlbwg==",
+        "resolved": "12.0.30111",
+        "contentHash": "ToNByCRLH875yHd1G43EmGuQz16bAV0PKICvzArpjuNugx/Cl4Djg15NHu7XUdPHm+UpAfH4W7nYh0u8NxqWHw==",
         "dependencies": {
-          "Microsoft.VisualStudio.OLE.Interop": "7.10.6070",
-          "Microsoft.VisualStudio.Shell.Interop": "7.10.6071",
-          "Microsoft.VisualStudio.Shell.Interop.10.0": "10.0.30319",
-          "Microsoft.VisualStudio.Shell.Interop.11.0": "11.0.61030",
-          "Microsoft.VisualStudio.Shell.Interop.8.0": "8.0.50727"
+          "Microsoft.VisualStudio.Shell.Interop.11.0": "11.0.61031"
         }
       },
       "Microsoft.VisualStudio.Shell.Interop.14.0.DesignTime": {
@@ -479,11 +475,8 @@
       },
       "Microsoft.VisualStudio.Threading.Analyzers": {
         "type": "Transitive",
-        "resolved": "15.0.240",
-        "contentHash": "plW6uGnQTsDtC1Sb1RKzqAJj+O0sT51epbilvvsjdS5yvon7lL4lRmAUeEOmkjzRuNvV1E7w4sIBbo2ejlARBA==",
-        "dependencies": {
-          "Microsoft.VisualStudio.Threading": "15.0.240"
-        }
+        "resolved": "15.8.132",
+        "contentHash": "SLE4lPoi0dB/ivJvNul6EJlsZ/1SKVhUDDh4KfehhxUmWMQOTiaowM/O3ZxlFfM3QoyspVVaEZVugDbXLQzO/g=="
       },
       "Microsoft.VisualStudio.Utilities": {
         "type": "Transitive",
@@ -638,33 +631,33 @@
       "NuGet.Commands": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Credentials": "5.0.0-preview1",
-          "NuGet.ProjectModel": "5.0.0-preview1"
+          "NuGet.Credentials": "5.0.0-preview2",
+          "NuGet.ProjectModel": "5.0.0-preview2"
         }
       },
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1"
+          "NuGet.Frameworks": "5.0.0-preview2"
         }
       },
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2"
         }
       },
       "NuGet.Credentials": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.DependencyResolver.Core": {
         "type": "Project",
         "dependencies": {
-          "NuGet.LibraryModel": "5.0.0-preview1",
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.LibraryModel": "5.0.0-preview2",
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -674,42 +667,42 @@
         "type": "Project",
         "dependencies": {
           "Lucene.Net": "3.0.3",
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.LibraryModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.PackageManagement": {
         "type": "Project",
         "dependencies": {
           "Microsoft.Web.Xdt": "2.1.2",
-          "NuGet.Commands": "5.0.0-preview1",
-          "NuGet.Resolver": "5.0.0-preview1"
+          "NuGet.Commands": "5.0.0-preview2",
+          "NuGet.Resolver": "5.0.0-preview2"
         }
       },
       "NuGet.PackageManagement.VisualStudio": {
         "type": "Project",
         "dependencies": {
           "Microsoft.VisualStudio.Workspace.VSIntegration": "15.0.198-pre",
-          "NuGet.Commands": "5.0.0-preview1",
-          "NuGet.Common": "5.0.0-preview1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Credentials": "5.0.0-preview1",
-          "NuGet.Frameworks": "5.0.0-preview1",
-          "NuGet.Indexing": "5.0.0-preview1",
-          "NuGet.LibraryModel": "5.0.0-preview1",
-          "NuGet.PackageManagement": "5.0.0-preview1",
-          "NuGet.Packaging": "5.0.0-preview1",
-          "NuGet.ProjectModel": "5.0.0-preview1",
-          "NuGet.Protocol": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1",
-          "NuGet.VisualStudio": "5.0.0-preview1",
-          "NuGet.VisualStudio.Common": "5.0.0-preview1",
+          "NuGet.Commands": "5.0.0-preview2",
+          "NuGet.Common": "5.0.0-preview2",
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Credentials": "5.0.0-preview2",
+          "NuGet.Frameworks": "5.0.0-preview2",
+          "NuGet.Indexing": "5.0.0-preview2",
+          "NuGet.LibraryModel": "5.0.0-preview2",
+          "NuGet.PackageManagement": "5.0.0-preview2",
+          "NuGet.Packaging": "5.0.0-preview2",
+          "NuGet.ProjectModel": "5.0.0-preview2",
+          "NuGet.Protocol": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2",
+          "NuGet.VisualStudio": "5.0.0-preview2",
+          "NuGet.VisualStudio.Common": "5.0.0-preview2",
           "VSLangProj110": "11.0.61030",
           "VSLangProj157": "15.7.0",
           "VSLangProj2": "7.0.5000"
@@ -719,26 +712,26 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.ProjectModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.DependencyResolver.Core": "5.0.0-preview1"
+          "NuGet.DependencyResolver.Core": "5.0.0-preview2"
         }
       },
       "NuGet.Protocol": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Packaging": "5.0.0-preview1"
+          "NuGet.Packaging": "5.0.0-preview2"
         }
       },
       "NuGet.Resolver": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.Versioning": {
@@ -748,7 +741,7 @@
         "type": "Project",
         "dependencies": {
           "EnvDTE80": "8.0.1",
-          "Microsoft.VisualStudio.Shell.Interop.12.0": "12.0.30110",
+          "Microsoft.VisualStudio.Shell.Interop.12.0": "12.0.30111",
           "VSSDK.TemplateWizardInterface": "12.0.4"
         }
       },
@@ -766,16 +759,16 @@
           "Microsoft.VisualStudio.Services.Client": "16.144.1-preview",
           "Microsoft.VisualStudio.Services.InteractiveClient": "16.144.1-preview",
           "Microsoft.VisualStudio.Shell.15.0": "15.8.28010",
-          "Microsoft.VisualStudio.Shell.Interop.12.0": "12.0.30110",
+          "Microsoft.VisualStudio.Shell.Interop.12.0": "12.0.30111",
           "Microsoft.VisualStudio.Telemetry": "15.0.691-master31907920",
           "Microsoft.VisualStudio.Text.Data": "16.0.189-g83e7c53a57",
           "Microsoft.VisualStudio.Text.Logic": "16.0.189-g83e7c53a57",
           "Microsoft.VisualStudio.Text.UI": "16.0.189-g83e7c53a57",
           "Microsoft.VisualStudio.Text.UI.Wpf": "16.0.189-g83e7c53a57",
           "Microsoft.VisualStudio.Threading": "15.8.132",
-          "Microsoft.VisualStudio.Threading.Analyzers": "15.0.240",
+          "Microsoft.VisualStudio.Threading.Analyzers": "15.8.132",
           "Microsoft.VisualStudio.Workspace.VSIntegration": "15.0.198-pre",
-          "NuGet.PackageManagement": "5.0.0-preview1",
+          "NuGet.PackageManagement": "5.0.0-preview2",
           "VSLangProj": "7.0.3300"
         }
       }

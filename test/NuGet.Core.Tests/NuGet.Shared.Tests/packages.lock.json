@@ -36,14 +36,16 @@
       },
       "Moq": {
         "type": "Direct",
-        "requested": "[4.7.145, )",
-        "resolved": "4.7.145",
-        "contentHash": "GeYAyZPx+9RZxSQYNj0Vh3nmO/Oq/dGdHfy0UxGLSo657fGNLhUWYyqLsb2pf7yHmkc3WfYkTbzFKPTR9lk5Vw==",
+        "requested": "[4.10.1, )",
+        "resolved": "4.10.1",
+        "contentHash": "bhIH9jS8Fuy5r+p7+y0M5wRbJkbhPbsacOAFd7hWwjV8/e71zZOfg33FVF3R7H/qOTV1vErIg+zSnGlzJn1sPA==",
         "dependencies": {
-          "Castle.Core": "4.2.1",
+          "Castle.Core": "4.3.1",
           "NETStandard.Library": "1.6.1",
           "System.Linq.Queryable": "4.3.0",
-          "System.Reflection.TypeExtensions": "4.3.0"
+          "System.Reflection.Emit": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.5.1",
+          "System.Threading.Tasks.Extensions": "4.5.1"
         }
       },
       "xunit": {
@@ -68,8 +70,8 @@
       },
       "Castle.Core": {
         "type": "Transitive",
-        "resolved": "4.2.1",
-        "contentHash": "XSNA0Gc1Zu33L+8+/3Tqt+aFu8QWS8UenVHZ7RenIP5wJfhoLrA4PnNscpxReeo5aBq8PDoGnV8rNaOzIOUo/w==",
+        "resolved": "4.3.1",
+        "contentHash": "Dx90A7xzdyYiaq1aMn3QmblpFAaVhDCiZkSblt96pf8QopOjLxCcs5ufKJA1zyg2L+Hxjnzx3JNrmfK8ZMRHvA==",
         "dependencies": {
           "NETStandard.Library": "1.6.1",
           "System.Collections.Specialized": "4.3.0",
@@ -749,12 +751,8 @@
       },
       "System.Reflection.TypeExtensions": {
         "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "7u6ulLcZbyxB5Gq0nMkQttcdBTx57ibzw+4IOXEfR+sXYQoHvjW5LTLyNr8O22UIMrqYbchJQJnos4eooYzYJA==",
-        "dependencies": {
-          "System.Reflection": "4.3.0",
-          "System.Runtime": "4.3.0"
-        }
+        "resolved": "4.5.1",
+        "contentHash": "gqhXUJmXSkZZvW50vw/uyDIz+Ph8VLtPoj39GQTMRz/XXZ8bI2kTkfT0MWtypb/PjdqkIoGPqJU5XS/CuEsiFg=="
       },
       "System.Resources.ResourceManager": {
         "type": "Transitive",
@@ -903,13 +901,8 @@
       },
       "System.Threading.Tasks.Extensions": {
         "type": "Transitive",
-        "resolved": "4.3.0",
-        "contentHash": "npvJkVKl5rKXrtl1Kkm6OhOUaYGEiF9wFbppFRWSMoApKzt2PiPHT2Bb8a5sAWxprvdOAtvaARS9QYMznEUtug==",
-        "dependencies": {
-          "System.Collections": "4.3.0",
-          "System.Runtime": "4.3.0",
-          "System.Threading.Tasks": "4.3.0"
-        }
+        "resolved": "4.5.1",
+        "contentHash": "rckdhLJtzQ3EI+0BGuq7dUVtCSnerqAoAmL3S6oMRZ4VMZTL3Rq9DS8IDW57c6PYVebA4O0NbSA1BDvyE18UMA=="
       },
       "System.Threading.Thread": {
         "type": "Transitive",
@@ -1264,11 +1257,12 @@
       },
       "Moq": {
         "type": "Direct",
-        "requested": "[4.7.145, )",
-        "resolved": "4.7.145",
-        "contentHash": "GeYAyZPx+9RZxSQYNj0Vh3nmO/Oq/dGdHfy0UxGLSo657fGNLhUWYyqLsb2pf7yHmkc3WfYkTbzFKPTR9lk5Vw==",
+        "requested": "[4.10.1, )",
+        "resolved": "4.10.1",
+        "contentHash": "bhIH9jS8Fuy5r+p7+y0M5wRbJkbhPbsacOAFd7hWwjV8/e71zZOfg33FVF3R7H/qOTV1vErIg+zSnGlzJn1sPA==",
         "dependencies": {
-          "Castle.Core": "4.2.1"
+          "Castle.Core": "4.3.1",
+          "System.Threading.Tasks.Extensions": "4.5.1"
         }
       },
       "xunit": {
@@ -1290,8 +1284,8 @@
       },
       "Castle.Core": {
         "type": "Transitive",
-        "resolved": "4.2.1",
-        "contentHash": "XSNA0Gc1Zu33L+8+/3Tqt+aFu8QWS8UenVHZ7RenIP5wJfhoLrA4PnNscpxReeo5aBq8PDoGnV8rNaOzIOUo/w=="
+        "resolved": "4.3.1",
+        "contentHash": "Dx90A7xzdyYiaq1aMn3QmblpFAaVhDCiZkSblt96pf8QopOjLxCcs5ufKJA1zyg2L+Hxjnzx3JNrmfK8ZMRHvA=="
       },
       "Microsoft.CodeCoverage": {
         "type": "Transitive",
@@ -1302,6 +1296,19 @@
         "type": "Transitive",
         "resolved": "15.5.0",
         "contentHash": "S4QJOWL3UNoE9in8IdJFFGiv3smk+SxuCnMVpZeG0nTYaWpp8uJ9dsBZeh3iCseIkjGJJuTXUSW3P0sRZG34DA=="
+      },
+      "System.Runtime.CompilerServices.Unsafe": {
+        "type": "Transitive",
+        "resolved": "4.5.0",
+        "contentHash": "6zBxkHYemB0kQiHP3vGXGRXejZVoNVuMn2paUuqKKi5Wyjkxfkp+D0rd0c3VrGwotidRINt6KpOi2smL4VkJKw=="
+      },
+      "System.Threading.Tasks.Extensions": {
+        "type": "Transitive",
+        "resolved": "4.5.1",
+        "contentHash": "rckdhLJtzQ3EI+0BGuq7dUVtCSnerqAoAmL3S6oMRZ4VMZTL3Rq9DS8IDW57c6PYVebA4O0NbSA1BDvyE18UMA==",
+        "dependencies": {
+          "System.Runtime.CompilerServices.Unsafe": "4.5.0"
+        }
       },
       "xunit.abstractions": {
         "type": "Transitive",

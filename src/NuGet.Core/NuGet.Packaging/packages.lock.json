@@ -17,13 +17,13 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1"
+          "NuGet.Frameworks": "5.0.0-preview2"
         }
       },
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -607,7 +607,7 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1",
+          "NuGet.Frameworks": "5.0.0-preview2",
           "System.Diagnostics.Process": "4.3.0",
           "System.Threading.Thread": "4.3.0"
         }
@@ -615,7 +615,7 @@
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
+          "NuGet.Common": "5.0.0-preview2",
           "System.Security.Cryptography.ProtectedData": "4.3.0"
         }
       },

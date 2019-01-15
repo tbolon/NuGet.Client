@@ -16,33 +16,33 @@
       "NuGet.Commands": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Credentials": "5.0.0-preview1",
-          "NuGet.ProjectModel": "5.0.0-preview1"
+          "NuGet.Credentials": "5.0.0-preview2",
+          "NuGet.ProjectModel": "5.0.0-preview2"
         }
       },
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1"
+          "NuGet.Frameworks": "5.0.0-preview2"
         }
       },
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2"
         }
       },
       "NuGet.Credentials": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.DependencyResolver.Core": {
         "type": "Project",
         "dependencies": {
-          "NuGet.LibraryModel": "5.0.0-preview1",
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.LibraryModel": "5.0.0-preview2",
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -51,28 +51,28 @@
       "NuGet.LibraryModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.Packaging": {
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.ProjectModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.DependencyResolver.Core": "5.0.0-preview1"
+          "NuGet.DependencyResolver.Core": "5.0.0-preview2"
         }
       },
       "NuGet.Protocol": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Packaging": "5.0.0-preview1"
+          "NuGet.Packaging": "5.0.0-preview2"
         }
       },
       "NuGet.Versioning": {
@@ -1207,14 +1207,14 @@
       "NuGet.Commands": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Credentials": "5.0.0-preview1",
-          "NuGet.ProjectModel": "5.0.0-preview1"
+          "NuGet.Credentials": "5.0.0-preview2",
+          "NuGet.ProjectModel": "5.0.0-preview2"
         }
       },
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1",
+          "NuGet.Frameworks": "5.0.0-preview2",
           "System.Diagnostics.Process": "4.3.0",
           "System.Threading.Thread": "4.3.0"
         }
@@ -1222,22 +1222,22 @@
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
+          "NuGet.Common": "5.0.0-preview2",
           "System.Security.Cryptography.ProtectedData": "4.3.0"
         }
       },
       "NuGet.Credentials": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Protocol": "5.0.0-preview1",
+          "NuGet.Protocol": "5.0.0-preview2",
           "System.Runtime.Serialization.Formatters": "4.3.0"
         }
       },
       "NuGet.DependencyResolver.Core": {
         "type": "Project",
         "dependencies": {
-          "NuGet.LibraryModel": "5.0.0-preview1",
-          "NuGet.Protocol": "5.0.0-preview1"
+          "NuGet.LibraryModel": "5.0.0-preview2",
+          "NuGet.Protocol": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -1246,23 +1246,23 @@
       "NuGet.LibraryModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.Packaging": {
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1",
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0"
         }
       },
       "NuGet.ProjectModel": {
         "type": "Project",
         "dependencies": {
-          "NuGet.DependencyResolver.Core": "5.0.0-preview1",
+          "NuGet.DependencyResolver.Core": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0",
           "System.Threading.Thread": "4.3.0"
         }
@@ -1270,7 +1270,7 @@
       "NuGet.Protocol": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Packaging": "5.0.0-preview1",
+          "NuGet.Packaging": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0"
         }
       },

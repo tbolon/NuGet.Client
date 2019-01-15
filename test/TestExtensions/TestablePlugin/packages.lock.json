@@ -4,13 +4,13 @@
     ".NETCoreApp,Version=v2.1": {
       "Microsoft.NETCore.App": {
         "type": "Direct",
-        "requested": "[2.1.6, )",
-        "resolved": "2.1.6",
-        "contentHash": "4KShBFobByVw92OH1mYbXqy10D2AMSYZCjhVjYxDooIpYZPTJJ5ArkLRaoGk1+7+55MiSb52Ys2mDdO2JW7ddA==",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "JNHhG+j5eIhG26+H721IDmwswGUznTwwSuJMFe/08h0X2YarHvA15sVAvUkA/2Sp3W0ENNm48t+J7KTPRqEpfA==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostPolicy": "2.1.6",
-          "Microsoft.NETCore.Platforms": "2.1.2",
-          "Microsoft.NETCore.Targets": "2.0.0",
+          "Microsoft.NETCore.DotNetHostPolicy": "2.1.0",
+          "Microsoft.NETCore.Platforms": "2.1.0",
+          "Microsoft.NETCore.Targets": "2.1.0",
           "NETStandard.Library": "2.0.3"
         }
       },
@@ -39,34 +39,34 @@
       },
       "Microsoft.NETCore.DotNetAppHost": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "UOjOuInejlfoOlG4CkgJufcyEAp9buYfhBsvdhukJFkPtSfTYv113XqP29e1uFdbcfTYCHHcDtit/gzQcjBTdQ=="
+        "resolved": "2.1.0",
+        "contentHash": "vMn8V3GOp/SPOG2oE8WxswzAWZ/GZmc8EPiB3vc2EZ6us14ehXhsvUFXndYopGNSjCa9OdqC6L6xStF1KyUZnw=="
       },
       "Microsoft.NETCore.DotNetHostPolicy": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "kx3ZCtbdjnMYOO0nL9vhcgbW/oEPWOkefPm1vqE7ufwChhc/AiRHGY8iYNKQdCRKqE7nDrI6mXyOvIT4+aXrgw==",
+        "resolved": "2.1.0",
+        "contentHash": "vBUwNihtLUVS2HhO6WocYfAktRmfFihm6JB8/sJ53caVW+AelvbnYpfiGzaZDpkWjN6vA3xzOKPu9Vu8Zz3p8Q==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.6"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.0"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "J8B4VKXcAwsXdQsizKI0h2l6SjM992iSkeln9i3peNULpkt7/bhwBuKVQmhVIBdjol9Iovsr21bFHpLsZmBhNQ==",
+        "resolved": "2.1.0",
+        "contentHash": "o0PRql5qOHFEY3d1WvzE+T7cMFKtOsWLMg8L1oTeGNnI4u5AzOj8o6AdZT3y2GxFA1DAx7AQ9qZjpCO2/bgZRw==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.6"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.0"
         }
       },
       "Microsoft.NETCore.Platforms": {
         "type": "Transitive",
-        "resolved": "2.1.2",
-        "contentHash": "7J7veIH7Mu6zc4llWnM7YRgTv9+Ew+JWkkDj0K7cEe8wuFA6HRt6STtwux2g+qjpDXeYeWsK0UQ3uIgRiTYHIg=="
+        "resolved": "2.1.0",
+        "contentHash": "aSTPL94NloSiQVL5Len8wbjFKOnoAX/vOh3s3DF6g3c7GUUMLCDvnBhmA72M2iN2AedyA8hpr7m89kzSAKUnJQ=="
       },
       "Microsoft.NETCore.Targets": {
         "type": "Transitive",
-        "resolved": "2.0.0",
-        "contentHash": "odP/tJj1z6GylFpNo7pMtbd/xQgTC3Ex2If63dRTL38bBNMwsBnJ+RceUIyHdRBC0oik/3NehYT+oECwBhIM3Q=="
+        "resolved": "2.1.0",
+        "contentHash": "x188gIZXOwFXkPXyGavEcPGcR6RGvjFOES2QzskN4gERZjWPN34qhRsZVMC0CLJfQLGSButarcgWxPPM4vmg0w=="
       },
       "Microsoft.Win32.Primitives": {
         "type": "Transitive",
@@ -599,7 +599,7 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1",
+          "NuGet.Frameworks": "5.0.0-preview2",
           "System.Diagnostics.Process": "4.3.0",
           "System.Threading.Thread": "4.3.0"
         }
@@ -607,7 +607,7 @@
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1",
+          "NuGet.Common": "5.0.0-preview2",
           "System.Security.Cryptography.ProtectedData": "4.3.0"
         }
       },
@@ -618,15 +618,15 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1",
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0"
         }
       },
       "NuGet.Protocol": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Packaging": "5.0.0-preview1",
+          "NuGet.Packaging": "5.0.0-preview2",
           "System.Dynamic.Runtime": "4.3.0"
         }
       },
@@ -637,41 +637,41 @@
     ".NETCoreApp,Version=v2.1/win7-x64": {
       "Microsoft.NETCore.App": {
         "type": "Direct",
-        "requested": "[2.1.6, )",
-        "resolved": "2.1.6",
-        "contentHash": "4KShBFobByVw92OH1mYbXqy10D2AMSYZCjhVjYxDooIpYZPTJJ5ArkLRaoGk1+7+55MiSb52Ys2mDdO2JW7ddA==",
+        "requested": "[2.1.0, )",
+        "resolved": "2.1.0",
+        "contentHash": "JNHhG+j5eIhG26+H721IDmwswGUznTwwSuJMFe/08h0X2YarHvA15sVAvUkA/2Sp3W0ENNm48t+J7KTPRqEpfA==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostPolicy": "2.1.6",
-          "Microsoft.NETCore.Platforms": "2.1.2",
-          "Microsoft.NETCore.Targets": "2.0.0",
+          "Microsoft.NETCore.DotNetHostPolicy": "2.1.0",
+          "Microsoft.NETCore.Platforms": "2.1.0",
+          "Microsoft.NETCore.Targets": "2.1.0",
           "NETStandard.Library": "2.0.3",
-          "runtime.win-x64.Microsoft.NETCore.App": "2.1.6"
+          "runtime.win-x64.Microsoft.NETCore.App": "2.1.0"
         }
       },
       "Microsoft.NETCore.DotNetAppHost": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "UOjOuInejlfoOlG4CkgJufcyEAp9buYfhBsvdhukJFkPtSfTYv113XqP29e1uFdbcfTYCHHcDtit/gzQcjBTdQ==",
+        "resolved": "2.1.0",
+        "contentHash": "vMn8V3GOp/SPOG2oE8WxswzAWZ/GZmc8EPiB3vc2EZ6us14ehXhsvUFXndYopGNSjCa9OdqC6L6xStF1KyUZnw==",
         "dependencies": {
-          "runtime.win-x64.Microsoft.NETCore.DotNetAppHost": "2.1.6"
+          "runtime.win-x64.Microsoft.NETCore.DotNetAppHost": "2.1.0"
         }
       },
       "Microsoft.NETCore.DotNetHostPolicy": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "kx3ZCtbdjnMYOO0nL9vhcgbW/oEPWOkefPm1vqE7ufwChhc/AiRHGY8iYNKQdCRKqE7nDrI6mXyOvIT4+aXrgw==",
+        "resolved": "2.1.0",
+        "contentHash": "vBUwNihtLUVS2HhO6WocYfAktRmfFihm6JB8/sJ53caVW+AelvbnYpfiGzaZDpkWjN6vA3xzOKPu9Vu8Zz3p8Q==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.6",
-          "runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy": "2.1.6"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.0",
+          "runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy": "2.1.0"
         }
       },
       "Microsoft.NETCore.DotNetHostResolver": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "J8B4VKXcAwsXdQsizKI0h2l6SjM992iSkeln9i3peNULpkt7/bhwBuKVQmhVIBdjol9Iovsr21bFHpLsZmBhNQ==",
+        "resolved": "2.1.0",
+        "contentHash": "o0PRql5qOHFEY3d1WvzE+T7cMFKtOsWLMg8L1oTeGNnI4u5AzOj8o6AdZT3y2GxFA1DAx7AQ9qZjpCO2/bgZRw==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.6",
-          "runtime.win-x64.Microsoft.NETCore.DotNetHostResolver": "2.1.6"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.0",
+          "runtime.win-x64.Microsoft.NETCore.DotNetHostResolver": "2.1.0"
         }
       },
       "Microsoft.Win32.Registry": {
@@ -691,28 +691,28 @@
       },
       "runtime.win-x64.Microsoft.NETCore.App": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "EuKpU6L+INi3C1IMvdGeVizW1p+z4xhm02wzos084ZWGVqNA+aPT7jJM0JGQC+2xQ+8H4irD5yS8BvDvbqK+og=="
+        "resolved": "2.1.0",
+        "contentHash": "Luk7EsoMrFH3CLQUS9Pdq6EIeWZUOHN2SYnGo++kWnrEN6pIMpQ0HCobYwaJ+Ou6GVC7hk8CTaLTVxtY3XvRIw=="
       },
       "runtime.win-x64.Microsoft.NETCore.DotNetAppHost": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "h6fjSjTEJzEmc+tEUvUA6jcwP6nGcNx4Q5U38lps1JT/gg4IOGFXkKvl7JEG75xM4gtanWW8PzEHxNuRZuEMEg=="
+        "resolved": "2.1.0",
+        "contentHash": "s66suy5Hpo6komOx8zmMTkO7XEl78F/jZ0+CA8Bp5zM2yoE2OZR5xAt579+KpN/lG8kbqFvnu7H/4+QQwVYkRg=="
       },
       "runtime.win-x64.Microsoft.NETCore.DotNetHostPolicy": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "YCcJLkEcTkQAdq38MIagy2Ndf2++knMKPL8Xi9gDxMs5g7jzt1Z52mneFDVLtUp7+s8Bfqep41RIaumio4T2BA==",
+        "resolved": "2.1.0",
+        "contentHash": "DeL6JoX3u7I5STe5HZEi2FWHhoAmuy1WM8hurSTIi/mG0h5i+OJeKwYxgotXzdR448qDTL2EL8EaHr1TpzpQGQ==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetHostResolver": "2.1.6"
+          "Microsoft.NETCore.DotNetHostResolver": "2.1.0"
         }
       },
       "runtime.win-x64.Microsoft.NETCore.DotNetHostResolver": {
         "type": "Transitive",
-        "resolved": "2.1.6",
-        "contentHash": "G5bagqxAYpXqY6xHwq6r6dz1+rnv/vQQWjrzNz4cVx1k3BBxdkRNavle8EWB+ei2p6Tcu196HBelmB/jO1FQxw==",
+        "resolved": "2.1.0",
+        "contentHash": "6b0MX3mW7UgFt95x1xX6ERBPogLIderDrCHy0+BlrE952LCITnpYPUtQYVmNNBbuzqAvYP9t7kPZ7qyNKyHrUQ==",
         "dependencies": {
-          "Microsoft.NETCore.DotNetAppHost": "2.1.6"
+          "Microsoft.NETCore.DotNetAppHost": "2.1.0"
         }
       },
       "System.Diagnostics.Process": {
@@ -765,13 +765,13 @@
       "NuGet.Common": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Frameworks": "5.0.0-preview1"
+          "NuGet.Frameworks": "5.0.0-preview2"
         }
       },
       "NuGet.Configuration": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Common": "5.0.0-preview1"
+          "NuGet.Common": "5.0.0-preview2"
         }
       },
       "NuGet.Frameworks": {
@@ -781,14 +781,14 @@
         "type": "Project",
         "dependencies": {
           "Newtonsoft.Json": "9.0.1",
-          "NuGet.Configuration": "5.0.0-preview1",
-          "NuGet.Versioning": "5.0.0-preview1"
+          "NuGet.Configuration": "5.0.0-preview2",
+          "NuGet.Versioning": "5.0.0-preview2"
         }
       },
       "NuGet.Protocol": {
         "type": "Project",
         "dependencies": {
-          "NuGet.Packaging": "5.0.0-preview1"
+          "NuGet.Packaging": "5.0.0-preview2"
         }
       },
       "NuGet.Versioning": {
