@@ -1122,6 +1122,7 @@ namespace NuGet.Protocol.Plugins
 
         private static string GetTemporaryDirectoryPath()
         {
+            // This needs to use the temp path utilities...get shared directory and stuff.
             var tempDirectoryPath = Path.Combine(Path.GetTempPath(), Path.GetRandomFileName());
 
             Directory.CreateDirectory(tempDirectoryPath);

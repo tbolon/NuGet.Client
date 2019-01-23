@@ -33,7 +33,7 @@ namespace NuGet.Packaging
         /// Package folder reader
         /// </summary>
         /// <param name="folder">root directory of an extracted nupkg</param>
-        public PackageFolderReader(DirectoryInfo folder)
+        public PackageFolderReader(DirectoryInfo folder) // make sure that the folder is checked for exists and stuff.
             : this(folder, DefaultFrameworkNameProvider.Instance, DefaultCompatibilityProvider.Instance)
         {
         }
@@ -166,7 +166,7 @@ namespace NuGet.Packaging
             var parent = file.Directory;
 
             while (parent != null
-                   && !StringComparer.OrdinalIgnoreCase.Equals(parent.FullName, root.FullName))
+                   && !StringComparer.OrdinalIgnoreCase.Equals(parent.FullName, root.FullName)) // check how directory info behaves in general...what happens when I do full name.
             {
                 parents.Push(parent);
                 parent = parent.Parent;

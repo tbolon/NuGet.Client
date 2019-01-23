@@ -25,7 +25,7 @@ namespace NuGet.Protocol
         public FindLocalPackagesResourceUnzipped(string root)
         {
             Root = root;
-            _packages = new Lazy<IReadOnlyList<LocalPackageInfo>>(() => GetPackagesCore(root));
+            _packages = new Lazy<IReadOnlyList<LocalPackageInfo>>(() => GetPackagesCore(root)); // check how the directory info stuff works here. 
             _index = new Lazy<Dictionary<PackageIdentity, LocalPackageInfo>>(() => GetIndex(_packages));
             _pathIndex = new Lazy<Dictionary<Uri, LocalPackageInfo>>(() => GetPathIndex(_packages));
         }

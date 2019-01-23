@@ -124,7 +124,7 @@ namespace NuGet.Common
             {
                 throw new ArgumentNullException(nameof(candidate));
             }
-            dir = Path.GetFullPath(dir);
+            dir = Path.GetFullPath(dir); // path get full path could be an issue here.
             dir = EnsureTrailingSlash(dir);
             candidate = Path.GetFullPath(candidate);
             return candidate.StartsWith(dir, StringComparison.OrdinalIgnoreCase);
@@ -156,7 +156,7 @@ namespace NuGet.Common
             }
         }
         
-        public static void EnsureParentDirectory(string filePath)
+        public static void EnsureParentDirectory(string filePath) // does this need double checked too?
         {
             string directory = Path.GetDirectoryName(filePath);
             if (!Directory.Exists(directory))
