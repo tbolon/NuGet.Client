@@ -58,6 +58,7 @@ namespace NuGet.CommandLine.Test
             }
         }
 
+#if SUPPORTS_FULL_SIGNING
         [Fact]
         public void VerifyCommand_WithAuthorSignedPackage_FailsGracefully()
         {
@@ -77,18 +78,9 @@ namespace NuGet.CommandLine.Test
                     string.Join(" ", args),
                     waitForExit: true);
 
-                if (RuntimeEnvironmentHelper.IsMono)
-                {
-                    Assert.True(_failureCode == result.ExitCode, result.AllOutput);
-                    Assert.False(result.Success);
-                    Assert.Contains("NU3004: The package is not signed.", result.AllOutput);
-                }
-                else
-                {
                     Assert.True(_successCode == result.ExitCode, result.AllOutput);
                     Assert.True(result.Success);
                     Assert.Contains("Successfully verified package 'TestPackage.AuthorSigned.1.0.0'", result.AllOutput);
-                }
             }
         }
 
@@ -99,6 +91,7 @@ namespace NuGet.CommandLine.Test
         {
             Util.TestCommandInvalidArguments(cmd);
         }
+#endif
 
         private static byte[] GetResource(string name)
         {

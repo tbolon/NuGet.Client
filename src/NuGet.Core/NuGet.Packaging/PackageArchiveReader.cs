@@ -271,9 +271,7 @@ namespace NuGet.Packaging
                 using (var reader = new BinaryReader(bufferedStream, new UTF8Encoding(), leaveOpen: true))
                 using (var stream = SignedPackageArchiveUtility.OpenPackageSignatureFileStream(reader))
                 {
-#if IS_DESKTOP
                     signature = PrimarySignature.Load(stream);
-#endif
                 }
             }
 
@@ -288,21 +286,17 @@ namespace NuGet.Packaging
 
             var isSigned = false;
 
-#if IS_DESKTOP
-            if (RuntimeEnvironmentHelper.IsWindows)
+            using (var zip = new ZipArchive(ZipReadStream, ZipArchiveMode.Read, leaveOpen: true))
             {
-                using (var zip = new ZipArchive(ZipReadStream, ZipArchiveMode.Read, leaveOpen: true))
-                {
-                    var signatureEntry = zip.GetEntry(SigningSpecifications.SignaturePath);
+                var signatureEntry = zip.GetEntry(SigningSpecifications.SignaturePath);
 
-                    if (signatureEntry != null &&
-                        string.Equals(signatureEntry.Name, SigningSpecifications.SignaturePath, StringComparison.Ordinal))
-                    {
-                        isSigned = true;
-                    }
+                if (signatureEntry != null &&
+                    string.Equals(signatureEntry.Name, SigningSpecifications.SignaturePath, StringComparison.Ordinal))
+                {
+                    isSigned = true;
                 }
             }
-#endif
+
             return Task.FromResult(isSigned);
         }
 
@@ -322,7 +316,6 @@ namespace NuGet.Packaging
                 throw new SignatureException(Strings.SignedPackageNotSignedOnVerify);
             }
 
-#if IS_DESKTOP
             using (var bufferedStream = new ReadOnlyBufferedStream(ZipReadStream, leaveOpen: true))
             using (var reader = new BinaryReader(bufferedStream, new UTF8Encoding(), leaveOpen: true))
             using (var hashAlgorithm = signatureContent.HashAlgorithm.GetHashProvider())
@@ -334,7 +327,6 @@ namespace NuGet.Packaging
                     throw new SignatureException(NuGetLogCode.NU3008, Strings.SignaturePackageIntegrityFailure, GetIdentity());
                 }
             }
-#endif
         }
 
         public override string GetContentHash(CancellationToken token, Func<string> GetUnsignedPackageHash = null)
@@ -383,11 +375,7 @@ namespace NuGet.Packaging
 
         public override bool CanVerifySignedPackages(SignedPackageVerifierSettings verifierSettings)
         {
-#if IS_DESKTOP
             return true;
-#else
-            return false;
-#endif
         }
 
         protected void ThrowIfZipReadStreamIsNull()

@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.IO.Compression;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading;
 using System.Threading.Tasks;
@@ -24,6 +25,7 @@ using NuGet.Test.Utility;
 using NuGet.Versioning;
 using Test.Utility.Signing;
 using Xunit;
+using HashAlgorithmName = NuGet.Common.HashAlgorithmName;
 
 namespace NuGet.Packaging.Test
 {
@@ -1734,7 +1736,6 @@ namespace NuGet.Packaging.Test
             }
         }
 
-#if IS_DESKTOP
         [Fact]
         public async Task ExtractPackageAsync_UnsignedPackage_WhenRepositorySaysAllPackagesSigned_ErrorAsync()
         {
@@ -1834,7 +1835,8 @@ namespace NuGet.Packaging.Test
         public async Task ExtractPackageAsync_RequireMode_EmptyRepoAllowList_ErrorAsync()
         {
             using (var dir = TestDirectory.Create())
-            using (var repoCertificate = new X509Certificate2(SigningTestUtility.GenerateTrustedTestCertificate().Source.Cert))
+            using (var trustedCert = SigningTestUtility.GenerateTrustedTestCertificate(dir))
+            using (var repoCertificate = new X509Certificate2(trustedCert.Source.Cert))
             {
                 var nupkg = new SimpleTestPackageContext();
                 var resolver = new PackagePathResolver(dir);
@@ -1892,7 +1894,8 @@ namespace NuGet.Packaging.Test
         public async Task ExtractPackageAsync_RequireMode_NoMatchInClientAllowList_ErrorAsync()
         {
             using (var dir = TestDirectory.Create())
-            using (var repoCertificate = new X509Certificate2(SigningTestUtility.GenerateTrustedTestCertificate().Source.Cert))
+            using (var trustedCert = SigningTestUtility.GenerateTrustedTestCertificate(dir))
+            using (var repoCertificate = new X509Certificate2(trustedCert.Source.Cert))
             {
                 var nupkg = new SimpleTestPackageContext();
                 var resolver = new PackagePathResolver(dir);
@@ -1951,7 +1954,8 @@ namespace NuGet.Packaging.Test
         {
             // Arrange
             using (var dir = TestDirectory.Create())
-            using (var repoCertificate = new X509Certificate2(SigningTestUtility.GenerateTrustedTestCertificate().Source.Cert))
+            using (var trustedCert = SigningTestUtility.GenerateTrustedTestCertificate(dir))
+            using (var repoCertificate = new X509Certificate2(trustedCert.Source.Cert))
             {
                 var nupkg = new SimpleTestPackageContext();
                 var certificateFingerprint = SignatureTestUtility.GetFingerprint(repoCertificate, HashAlgorithmName.SHA256);
@@ -1993,8 +1997,9 @@ namespace NuGet.Packaging.Test
         {
             // Arrange
             using (var dir = TestDirectory.Create())
-            using (var repoCertificate = new X509Certificate2(SigningTestUtility.GenerateTrustedTestCertificate().Source.Cert))
-            using (var packageSignatureCertificate = SigningTestUtility.GenerateTrustedTestCertificate().Source.Cert)
+            using (var trustedCert = SigningTestUtility.GenerateTrustedTestCertificate(dir))
+            using (var repoCertificate = new X509Certificate2(trustedCert.Source.Cert))
+            using (var repoTrustedCert = SigningTestUtility.GenerateTrustedTestCertificate(dir))
             {
                 var nupkg = new SimpleTestPackageContext();
 
@@ -2002,7 +2007,7 @@ namespace NuGet.Packaging.Test
                 var repositorySignatureInfo = CreateTestRepositorySignatureInfo(new List<X509Certificate2> { repoCertificate }, allSigned: true);
                 var repositorySignatureInfoContentUrl = repositorySignatureInfo.RepositoryCertificateInfos.Select(c => c.ContentUrl).First();
                 var repositorySignatureInfoProvider = RepositorySignatureInfoProvider.Instance;
-                var repoSignedPackagePath = await SignedArchiveTestUtility.RepositorySignPackageAsync(packageSignatureCertificate, nupkg, dir, new Uri(repositorySignatureInfoContentUrl));
+                var repoSignedPackagePath = await SignedArchiveTestUtility.RepositorySignPackageAsync(repoTrustedCert.Source.Cert, nupkg, dir, new Uri(repositorySignatureInfoContentUrl));
 
                 repositorySignatureInfoProvider.AddOrUpdateRepositorySignatureInfo(dir, repositorySignatureInfo);
 
@@ -2062,7 +2067,8 @@ namespace NuGet.Packaging.Test
         {
             // Arrange
             using (var dir = TestDirectory.Create())
-            using (var repoCertificate = SigningTestUtility.GenerateSelfIssuedCertificate(isCa: false))
+            using (var rsa = RSA.Create(keySizeInBits: 2048))
+            using (var repoCertificate = SigningTestUtility.GenerateSelfIssuedCertificate(rsa, isCa: false))
             {
                 var nupkg = new SimpleTestPackageContext();
                 var resolver = new PackagePathResolver(dir);
@@ -2357,88 +2363,6 @@ namespace NuGet.Packaging.Test
                 }
             }
         }
-#endif
-
-#if IS_CORECLR
-        [Fact]
-        public async Task ExtractPackageAsync_RequireMode_UnsignedPackage_InCoreCLR_SkipsSigningVerificationAsync()
-        {
-            // Arrange
-            var signedPackageVerifier = new Mock<IPackageSignatureVerifier>(MockBehavior.Strict);
-
-            signedPackageVerifier.Setup(x => x.VerifySignaturesAsync(
-                It.IsAny<ISignedPackageReader>(),
-                It.IsAny<SignedPackageVerifierSettings>(),
-                It.IsAny<CancellationToken>(),
-                It.IsAny<Guid>())).
-                ReturnsAsync(new VerifySignaturesResult(isValid: false, isSigned: false));
-
-            var extractionContext = new PackageExtractionContext(
-                packageSaveMode: PackageSaveMode.Nuspec | PackageSaveMode.Files,
-                xmlDocFileSaveMode: XmlDocFileSaveMode.None,
-                clientPolicyContext: new ClientPolicyContext(SignatureValidationMode.Require, allowList: null),
-                logger: NullLogger.Instance)
-            {
-                SignedPackageVerifier = signedPackageVerifier.Object
-            };
-
-            using (var test = new ExtractPackageAsyncTest(extractionContext))
-            {
-
-                var packageContext = new SimpleTestPackageContext();
-                await SimpleTestPackageUtility.CreatePackagesAsync(test.Source, packageContext);
-
-                var packageFile = new FileInfo(Path.Combine(test.Source,
-                    $"{packageContext.Identity.Id}.{packageContext.Identity.Version.ToNormalizedString()}.nupkg"));
-
-                using (var packageReader = new PackageArchiveReader(File.OpenRead(packageFile.FullName)))
-                {
-                    // Act
-                    SignatureException exception = null;
-                    IEnumerable<string> files = null;
-
-                    try
-                    {
-                        files = await PackageExtractor.ExtractPackageAsync(
-                            test.Source,
-                            packageReader,
-                            test.Resolver,
-                            test.Context,
-                            CancellationToken.None);
-                    }
-                    catch (SignatureException e)
-                    {
-                        exception = e;
-                    }
-
-                    // Assert
-                    exception.Should().BeNull();
-                    files.Should().NotBeNull();
-                    files.Count().Should().Be(8);
-                    var packagePath = Path.Combine(test.DestinationDirectory.FullName,
-                        $"{packageContext.Identity.Id}.{packageContext.Identity.Version.ToNormalizedString()}");
-
-                    Directory.Exists(packagePath).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        $"{packageContext.Id}.nuspec")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "contentFiles/any/any/config.xml")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "contentFiles/cs/net45/code.cs")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "lib/net45/a.dll")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "lib/netstandard1.0/a.dll")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        $"build/net45/{packageContext.Id}.targets")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "runtimes/any/native/a.dll")).Should().BeTrue();
-                    File.Exists(Path.Combine(packagePath,
-                        "tools/a.exe")).Should().BeTrue();
-                }
-            }
-        }
-#endif
 
         [Fact]
         public async Task InstallFromSourceAsync_WithoutPackageSaveModeNuspec_DoesNotExtractNuspecAsync()
@@ -2718,7 +2642,6 @@ namespace NuGet.Packaging.Test
             packageDownloader.Verify();
         }
 
-#if IS_DESKTOP
         [Fact]
         public async Task InstallFromSourceAsyncByPackageDownloader_TrustedSignPackageAsync()
         {
@@ -3522,7 +3445,6 @@ namespace NuGet.Packaging.Test
                 }
             }
         }
-#endif
 
         private string PermissionWithUMaskApplied(string permission)
         {
@@ -3943,7 +3865,6 @@ namespace NuGet.Packaging.Test
             yield return new object[] { SignatureValidationMode.Require };
         }
 
-#if IS_DESKTOP
         private static RepositorySignatureInfo CreateTestRepositorySignatureInfo(List<X509Certificate2> certificates, bool allSigned)
         {
             var repoCertificateInfo = new List<IRepositoryCertificateInfo>();
@@ -3968,6 +3889,5 @@ namespace NuGet.Packaging.Test
 
             return new RepositorySignatureInfo(allSigned, repoCertificateInfo);
         }
-#endif
     }
 }
