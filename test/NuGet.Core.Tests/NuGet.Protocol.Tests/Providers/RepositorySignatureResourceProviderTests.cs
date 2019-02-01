@@ -19,9 +19,9 @@ namespace NuGet.Protocol.Tests.Providers
     public class RepositorySignatureResourceProviderTests
     {
         private const string _resourceType47 = "RepositorySignatures/4.7.0";
-        private const string _resourceType49 = "RepositorySignatures/4.9.0";
+        private const string _resourceType50 = "RepositorySignatures/5.0.0";
         private const string _resourceUri47 = "https://unit.test/4.7.0";
-        private const string _resourceUri49 = "https://unit.test/4.9.0";
+        private const string _resourceUri50 = "https://unit.test/5.0.0";
 
         private static readonly SemanticVersion _defaultVersion = new SemanticVersion(0, 0, 0);
 
@@ -51,8 +51,8 @@ namespace NuGet.Protocol.Tests.Providers
         }
 
         [Theory]
-        [InlineData("http://unit.test/4.9.0", _resourceType49)]
-        [InlineData(@"\\localhost\unit\test\4.9.0", _resourceType49)]
+        [InlineData("http://unit.test/5.0.0", _resourceType50)]
+        [InlineData(@"\\localhost\unit\test\5.0.0", _resourceType50)]
         public async Task TryCreate_WhenUrlIsInvalid_Throws(string resourceUrl, string resourceType)
         {
             var serviceEntry = new ServiceIndexEntry(new Uri(resourceUrl), resourceType, _defaultVersion);
@@ -75,7 +75,7 @@ namespace NuGet.Protocol.Tests.Providers
         }
 
         [Theory]
-        [InlineData(_resourceUri49, _resourceType49)]
+        [InlineData(_resourceUri50, _resourceType50)]
         [InlineData(_resourceUri47, _resourceType47)]
         public async Task TryCreate_WhenOnlyOneResourceIsPresent_ReturnsThatResource(string resourceUrl, string resourceType)
         {
@@ -107,7 +107,7 @@ namespace NuGet.Protocol.Tests.Providers
         public async Task TryCreate_WhenMultipleResourcesArePresent_Returns49Resource()
         {
             var serviceEntry47 = new ServiceIndexEntry(new Uri(_resourceUri47), _resourceType47, _defaultVersion);
-            var serviceEntry49 = new ServiceIndexEntry(new Uri(_resourceUri49), _resourceType49, _defaultVersion);
+            var serviceEntry49 = new ServiceIndexEntry(new Uri(_resourceUri50), _resourceType50, _defaultVersion);
             var resourceProviders = new ResourceProvider[]
             {
                 CreateServiceIndexResourceV3Provider(serviceEntry47, serviceEntry49),
