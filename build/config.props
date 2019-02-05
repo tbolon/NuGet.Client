@@ -2,7 +2,7 @@
 <Project ToolsVersion="15.0">
   <!-- Version -->
   <PropertyGroup>
-    <IsEscrowMode>false</IsEscrowMode>
+    <IsEscrowMode>true</IsEscrowMode>
     <!-- when changing any of the NuGetVersion props below, also update ProductVersion in src\NuGet.Clients\NuGet.Tools\NuGetPackage.cs -->
     <MajorNuGetVersion Condition="'$(MajorNuGetVersion)' == ''">5</MajorNuGetVersion>
     <MinorNuGetVersion Condition="'$(MinorNuGetVersion)' == ''">0</MinorNuGetVersion>
