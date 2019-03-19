@@ -35,11 +35,11 @@ namespace API.Test.Cmdlets
             var services = ServiceLocator.GetComponent<IVsPackageInstallerServices>();
             if (string.IsNullOrEmpty(Version))
             {
-                WriteObject(services.IsPackageInstalled(project, Id));
+                TracedWriteObject(services.IsPackageInstalled(project, Id));
             }
             else
             {
-                WriteObject(services.IsPackageInstalledEx(project, Id, Version));
+                TracedWriteObject(services.IsPackageInstalledEx(project, Id, Version));
             }
         }
     }

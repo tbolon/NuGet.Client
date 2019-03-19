@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Management.Automation;
 using System.Threading.Tasks;
-using Microsoft;
 using NuGet.VisualStudio;
 using Task = System.Threading.Tasks.Task;
 
@@ -46,7 +45,7 @@ namespace API.Test.Cmdlets
 
             foreach (var package in packages)
             {
-                WriteObject(new PackageView(package.Id, package.VersionString), enumerateCollection: true);
+                TracedWriteObject(new PackageView(package.Id, package.VersionString));
             }
         }
 

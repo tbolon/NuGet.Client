@@ -86,6 +86,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
         protected override void ProcessRecordCore()
         {
+            AssertCorrectThread();
+
             Preprocess();
 
             if (StartWith.IsPresent)
@@ -130,7 +132,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
             if (view.Any())
             {
-                WriteObject(view, enumerateCollection: true);
+                TracedWriteObject(view, enumerateCollection: true);
             }
 
             foreach (var error in errors)
@@ -151,7 +153,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             if (excludeVersionInfo)
             {
                 var packages = packageIds.Select(id => new PowerShellPackage { Id = id });
-                WriteObject(packages, enumerateCollection: true);
+                TracedWriteObject(packages, enumerateCollection: true);
                 return;
             }
 
@@ -167,7 +169,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                     packages.Add(package);
                 }
 
-                WriteObject(packages, enumerateCollection: true);
+                TracedWriteObject(packages, enumerateCollection: true);
             }
             else
             {
@@ -180,7 +182,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
                         // Just start the task and don't wait for it to complete
                         package.AsyncLazyVersions.GetValueAsync();
-                        WriteObject(package);
+                        TracedWriteObject(package);
                     }
                 }
             }

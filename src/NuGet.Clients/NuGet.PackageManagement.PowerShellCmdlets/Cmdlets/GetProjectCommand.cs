@@ -47,9 +47,9 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             {
                 VsSolutionManager.EnsureSolutionIsLoaded();
                 var projects = NuGetUIThreadHelper.JoinableTaskFactory.Run(
-                    async() => (await VsSolutionManager.GetAllVsProjectAdaptersAsync()).Select(p => p.Project));
+                    async () => (await VsSolutionManager.GetAllVsProjectAdaptersAsync()).Select(p => p.Project));
 
-                WriteObject(projects, enumerateCollection: true);
+                TracedWriteObject(projects, enumerateCollection: true);
             }
             else
             {
@@ -58,16 +58,17 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                 {
                     var defaultProject = NuGetUIThreadHelper.JoinableTaskFactory.Run(
                         async () => await GetDefaultProjectAsync());
+
                     if (defaultProject != null)
                     {
-                        WriteObject(defaultProject.Project);
+                        TracedWriteObject(defaultProject.Project);
                     }
                 }
                 else
                 {
                     // get all projects matching name(s) - handles wildcards
                     NuGetUIThreadHelper.JoinableTaskFactory.Run(
-                        async () => WriteObject((await GetProjectsByNameAsync(Name)).Select(p => p.Project), enumerateCollection: true));
+                           async () => TracedWriteObject((await GetProjectsByNameAsync(Name)).Select(p => p.Project), enumerateCollection: true));
                 }
             }
         }

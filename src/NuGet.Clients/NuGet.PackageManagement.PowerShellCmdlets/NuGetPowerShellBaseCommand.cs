@@ -63,6 +63,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
         private SourceRepository _activeSourceRepository;
 
+        private readonly Lazy<int> _threadId = new Lazy<int>(() => System.Threading.Thread.CurrentThread.ManagedThreadId);
+
         #endregion Members
 
         protected NuGetPowerShellBaseCommand()
@@ -210,6 +212,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
         [SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "We want to display friendly message to the console.")]
         protected override sealed void ProcessRecord()
         {
+            AssertCorrectThread();
+
             var stopWatch = new Stopwatch();
             stopWatch.Start();
             try
@@ -713,11 +717,15 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
         protected override void BeginProcessing()
         {
+            AssertCorrectThread();
+
             IsExecuting = true;
         }
 
         protected override void EndProcessing()
         {
+            AssertCorrectThread();
+
             IsExecuting = false;
             UnsubscribeEvents();
             base.EndProcessing();
@@ -775,7 +783,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             }
             else
             {
-                WriteError(errorRecord);
+                TracedWriteError(errorRecord);
             }
         }
 
@@ -884,7 +892,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             progressRecord.CurrentOperation = operation;
             progressRecord.PercentComplete = percentComplete;
 
-            WriteProgress(progressRecord);
+            TracedWriteProgress(progressRecord);
         }
 
         /// <summary>
@@ -972,11 +980,11 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             switch (level)
             {
                 case MessageLevel.Debug:
-                    WriteVerbose(formattedMessage);
+                    TracedWriteVerbose(formattedMessage);
                     break;
 
                 case MessageLevel.Warning:
-                    WriteWarning(formattedMessage);
+                    TracedWriteWarning(formattedMessage);
                     break;
 
                 case MessageLevel.Info:
@@ -1140,6 +1148,86 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             {
                 _operationId = value;
             }
+        }
+
+        protected void AssertCorrectThread()
+        {
+            var currentThreadId = System.Threading.Thread.CurrentThread.ManagedThreadId;
+
+            if (currentThreadId != _threadId.Value)
+            {
+                throw new InvalidOperationException($"WriteObject(...) or WriteError(...) called on wrong thread.");
+            }
+        }
+
+        protected void TracedWriteCommandDetail(string text)
+        {
+            AssertCorrectThread();
+
+            base.WriteCommandDetail(text);
+        }
+
+        protected void TracedWriteDebug(string text)
+        {
+            AssertCorrectThread();
+
+            base.WriteDebug(text);
+        }
+
+        protected void TracedWriteError(ErrorRecord errorRecord)
+        {
+            AssertCorrectThread();
+
+            base.WriteError(errorRecord);
+        }
+
+        protected void TracedWriteInformation(object messageData, string[] tags)
+        {
+            AssertCorrectThread();
+
+            base.WriteInformation(messageData, tags);
+        }
+
+        protected void TracedWriteInformation(InformationRecord informationRecord)
+        {
+            AssertCorrectThread();
+
+            base.WriteInformation(informationRecord);
+        }
+
+        protected void TracedWriteObject(object sendToPipeline, bool enumerateCollection)
+        {
+            AssertCorrectThread();
+
+            base.WriteObject(sendToPipeline, enumerateCollection);
+        }
+
+        protected void TracedWriteObject(object sendToPipeline)
+        {
+            AssertCorrectThread();
+
+            base.WriteObject(sendToPipeline);
+        }
+
+        protected void TracedWriteProgress(ProgressRecord progressRecord)
+        {
+            AssertCorrectThread();
+
+            base.WriteProgress(progressRecord);
+        }
+
+        protected void TracedWriteVerbose(string text)
+        {
+            AssertCorrectThread();
+
+            base.WriteVerbose(text);
+        }
+
+        protected void TracedWriteWarning(string text)
+        {
+            AssertCorrectThread();
+
+            base.WriteWarning(text);
         }
     }
 

@@ -40,8 +40,12 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
         protected override void ProcessRecordCore()
         {
+            AssertCorrectThread();
+
             NuGetUIThreadHelper.JoinableTaskFactory.Run(async delegate
                 {
+                    AssertCorrectThread();
+
                     CheckSolutionState();
 
                     var projects = new List<IVsProjectAdapter>();
@@ -76,7 +80,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                             var redirects = await RuntimeHelpers.AddBindingRedirectsAsync(VsSolutionManager, project, domain, projectAssembliesCache, _frameworkMultiTargeting, this);
 
                             // Print out what we did
-                            WriteObject(redirects, enumerateCollection: true);
+                            TracedWriteObject(redirects, enumerateCollection: true);
                         }
                     }
                     finally

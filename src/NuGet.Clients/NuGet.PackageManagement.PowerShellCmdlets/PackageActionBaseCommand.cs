@@ -287,7 +287,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                     CultureInfo.CurrentCulture,
                     Resources.Cmdlet_RequestRestartToCompleteUninstall,
                     string.Join(", ", packageDirectoriesMarkedForDeletion));
-                WriteWarning(message);
+                TracedWriteWarning(message);
             }
         }
 

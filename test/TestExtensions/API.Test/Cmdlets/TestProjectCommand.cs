@@ -33,11 +33,11 @@ namespace API.Test.Cmdlets
 
             if (IsDeferred)
             {
-                WriteObject(await TestProjectIsDeferredAsync(project));
+                TracedWriteObject(await TestProjectIsDeferredAsync(project));
                 return;
             }
 
-            WriteObject(true);
+            TracedWriteObject(true);
         }
 
         private static async Task<bool> TestProjectIsDeferredAsync(IVsHierarchy project)

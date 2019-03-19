@@ -365,7 +365,7 @@ function Run-Test {
                                 Test = $name
                                 Error = $_
                             }
-                            Write-Host -ForegroundColor Red "$($testObject.InvocationInfo.InvocationName) Failed: $testObject. Exception message: $_"
+                            Write-Host -ForegroundColor Red "$($testObject.InvocationInfo.InvocationName) Failed: $testObject. Exception message: $_ Callstack: $($_.Exception.ToString())"
                             $testSucceeded = $false
                         }
                     }

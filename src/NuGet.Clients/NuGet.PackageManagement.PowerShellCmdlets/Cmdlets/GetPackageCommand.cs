@@ -119,6 +119,8 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
         protected override void ProcessRecordCore()
         {
+            AssertCorrectThread();
+
             Preprocess();
 
             // If Remote & Updates set of parameters are not specified, list the installed package.
@@ -235,7 +237,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
                     if (versions.Any())
                     {
                         projectHasUpdates = true;
-                        WriteObject(package);
+                        TracedWriteObject(package);
                     }
                 }
             }
@@ -255,7 +257,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
             var view = PowerShellInstalledPackage.GetPowerShellPackageView(dictionary, VsSolutionManager, ConfigSettings);
             if (view.Any())
             {
-                WriteObject(view, enumerateCollection: true);
+                TracedWriteObject(view, enumerateCollection: true);
             }
             else
             {
@@ -340,7 +342,7 @@ namespace NuGet.PackageManagement.PowerShellCmdlets
 
             if (view.Any() || !outputOnEmpty)
             {
-                WriteObject(view, enumerateCollection: true);
+                TracedWriteObject(view, enumerateCollection: true);
             }
             else
             {
