@@ -31,16 +31,16 @@ namespace NuGet.Common
                 }
                 // ensure directories exists starting from the root
                 var root = Path.GetPathRoot(path);
-                var sepPos = root.Length - 1;
+                var separatorIndex = root.Length - 1;
                 do
                 {
-                    sepPos = path.IndexOf(Path.DirectorySeparatorChar, sepPos + 1);
-                    var currentPath = sepPos == -1 ? path : path.Substring(0, sepPos);
+                    separatorIndex = path.IndexOf(Path.DirectorySeparatorChar, separatorIndex + 1);
+                    var currentPath = separatorIndex == -1 ? path : path.Substring(0, separatorIndex);
                     if (!Directory.Exists(currentPath))
                     {
                         CreateSingleSharedDirectory(currentPath);
                     }
-                } while (sepPos != -1);
+                } while (separatorIndex != -1);
             }
         }
 
