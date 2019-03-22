@@ -115,8 +115,8 @@
     <!-- Test inputs -->
     <PropertyGroup>
       <TestProjectPaths>$(RepositoryRootDirectory)test\NuGet.Tests.Apex\NuGet.Tests.Apex\NuGet.Tests.Apex.csproj</TestProjectPaths>
-      <TestResultsFileName>ApexTestsVS15</TestResultsFileName>
-      <TestVisualStudioVersion>15.0</TestVisualStudioVersion>
+      <TestResultsFileName>ApexTestsVS16</TestResultsFileName>
+      <TestVisualStudioVersion>16.0</TestVisualStudioVersion>
     </PropertyGroup>
 
     <!-- Run tests as a batch -->
