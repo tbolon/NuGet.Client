@@ -33,7 +33,6 @@ Add-Type -AssemblyName System.Web.Extensions
 $javaScriptSerializer = New-Object System.Web.Script.Serialization.JavaScriptSerializer
 $javaScriptSerializer.MaxJsonLength = [System.Int32]::MaxValue
 
-$msbuildPath = Join-Path $env:windir Microsoft.NET\Framework\v4.0.30319\msbuild
 $testExtensionNames = ( "GenerateTestPackages.exe", "API.Test.dll" )
 $testExtensionsRoot = Join-Path $nugetRoot "artifacts\TestExtensions"
 
@@ -53,6 +52,11 @@ else
 # Remove GenerateTestPackages alone from the list of test extensions
 $generatePackagesExePath = $testExtensions[0]
 $testExtensions.RemoveAt(0)
+
+$hashAlgorithm = [System.Security.Cryptography.HashAlgorithm]::Create("SHA256")
+$bytes = [System.IO.File]::ReadAllBytes($generatePackagesExePath)
+$hash = $hashAlgorithm.ComputeHash($bytes)
+$base64Hash = [System.Convert]::ToBase64String($hash)
 
 $testExtensions | %{
     if (!(Test-Path $_))
@@ -74,6 +78,15 @@ else
 {
     $targetFrameworkVersion = "v4.5"
 }
+
+Set-Variable testResultType -option Constant -value 'test result'
+Set-Variable testRunSummaryType -option Constant -value 'test run summary'
+
+Set-Variable passedStatus -option Constant -value 'Passed'
+Set-Variable skippedStatus -option Constant -value 'Skipped'
+Set-Variable failedStatus -option Constant -value 'Failed'
+
+$stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
 
 # TODO: Add the ability to rerun failed tests from the previous run
 
@@ -106,6 +119,18 @@ function Rearrange-Tests {
     $tests
 }
 
+Function DebugLog([string] $filePath, [string] $message)
+{
+    $now = [DateTime]::UtcNow.ToString("O")
+
+    Add-Content -Path $filePath -Value "$now $($stopwatch.Elapsed)`:  $message"
+}
+
+Function DebugLogRaw([string] $filePath, [string] $message)
+{
+    Add-Content -Path $filePath -Value $message
+}
+
 function Run-Test {
     [CmdletBinding(DefaultParameterSetName="Test")]
     param(
@@ -118,7 +143,7 @@ function Run-Test {
         [parameter(ParameterSetName="Exclude", Mandatory=$true, Position=2)]
         [string]$Exclude,
         [parameter(Position=3)]
-        [bool]$LaunchResultsOnFailure=$false
+        [bool]$launchResultsOnFailure=$false
     )
 
     Write-Verbose "Loading test extensions modules"
@@ -138,12 +163,14 @@ function Run-Test {
     }
     else
     {
-        $testRunId = New-Guid
+        $testRunId = (New-Guid).ToString()
     }
 
     $testRunOutputPath = Join-Path $testOutputPath $testRunId
     $testLogFile = Join-Path $testRunOutputPath log.txt
     $testRealTimeResultsFile = Join-Path $testRunOutputPath Realtimeresults.txt
+    $debugLogFilePath = Join-Path $testRunOutputPath debuglog.txt
+    $generatePackagesLogFilePath = Join-Path $testRunOutputPath "generatepackages.txt"
 
     # Create the output folder
     mkdir $testRunOutputPath -ErrorAction Ignore | Out-Null
@@ -154,6 +181,9 @@ function Run-Test {
     }
 
     Write-Verbose "Loading scripts from `"$testPath`""
+
+    DebugLog $debugLogFilePath "PowerShell version:  $($PSVersionTable.PSVersion.ToString())"
+    DebugLog $debugLogFilePath "Base64-encoded SHA-256 hash of $generatePackagesExePath`:  $base64Hash"
 
     if (!$File) {
         $File = "*.ps1"
@@ -268,7 +298,7 @@ function Run-Test {
 
             $testCaseIndex = -1
             $testCases | %{
-
+                DebugLog $debugLogFilePath "Started loop"
                 # set name to test name. If this is a test case, we will add that info to the name
                 $name = $testName
 
@@ -305,24 +335,81 @@ function Run-Test {
                     NuGetExe = $nugetExePath
                 }
 
+                DebugLog $debugLogFilePath "Loop point 1"
+
                 $generatePackagesExitCode = 0
                 if (Test-Path $repositoryPath) {
                     pushd
                     Set-Location $repositoryPath
+                    DebugLog $debugLogFilePath "Loop point 2"
                     # Generate any packages that might be in the repository dir
                     Get-ChildItem $repositoryPath\* -Include *.dgml,*.nuspec | %{
-                        Write-Host 'Running GenerateTestPackages.exe on ' $_.FullName '...'
-                        $p = Start-Process $generatePackagesExePath -Wait -WindowStyle Hidden -PassThru -ArgumentList $_.FullName
-                        if($p.ExitCode -ne 0)
+                        Write-Host "Running GenerateTestPackages.exe on $($_.FullName) with log $generatePackagesLogFilePath..."
+
+                        $stdout = $Null
+                        $stderr = $Null
+
+                        DebugLog $debugLogFilePath "Loop point 3"
+
+                        $directoryPath = [System.IO.Path]::GetDirectoryName($generatePackagesLogFilePath)
+                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath))
+
+                        DebugLog $debugLogFilePath "Files in $directoryPath (before):  `r`n$files"
+
+                        $pinfo = New-Object System.Diagnostics.ProcessStartInfo
+                        $pinfo.FileName = $generatePackagesExePath
+                        $pinfo.RedirectStandardError = $True
+                        $pinfo.RedirectStandardOutput = $True
+                        $pinfo.UseShellExecute = $False
+                        $pinfo.Arguments = "`"$($_.FullName)`" `"$generatePackagesLogFilePath`""
+
+                        $p = New-Object System.Diagnostics.Process
+                        $p.StartInfo = $pinfo
+                        $wasLaunched = $p.Start()
+                        $p.WaitForExit()
+                        $stdout = $p.StandardOutput.ReadToEnd()
+                        $stderr = $p.StandardError.ReadToEnd()
+
+                        DebugLog $debugLogFilePath "Loop point 4"
+
+                        $generatePackagesExitCode = $p.ExitCode
+
+                        DebugLog $debugLogFilePath "Was launched:  $wasLaunched"
+                        DebugLog $debugLogFilePath "Exit code:  $generatePackagesExitCode"
+
+                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath))
+
+                        DebugLog $debugLogFilePath "Files in $directoryPath (after):  `r`n$files"
+
+                        If ($stdout)
                         {
-                            $generatePackagesExitCode = $p.ExitCode
+                            DebugLogRaw $debugLogFilePath $stdout
+                        }
+
+                        If ($stderr)
+                        {
+                            DebugLogRaw $debugLogFilePath $stderr
+                        }
+
+                        $logData = [System.IO.File]::ReadAllText($generatePackagesLogFilePath)
+
+                        DebugLog $debugLogFilePath "Loop point 5"
+
+                        DebugLogRaw $debugLogFilePath $logData
+
+                        DebugLog $debugLogFilePath "Loop point 6"
+
+                        If ($generatePackagesExitCode -ne 0)
+                        {
                             Write-Host -ForegroundColor Red 'GenerateTestPackages.exe failed. Exit code is ' + $generatePackagesExitCode
                         }
-                        else {
+                        else
+                        {
                             Write-Host 'GenerateTestPackages.exe on ' $_.FullName ' succeeded'
                         }
                     }
                     popd
+                    DebugLog $debugLogFilePath "Loop point 7"
                 }
 
                 $context = New-Object PSObject -Property $values
@@ -343,13 +430,18 @@ function Run-Test {
                             throw 'GenerateTestPackages.exe failed. Exit code is ' + $generatePackagesExitCode
                         }
 
+                        DebugLog $debugLogFilePath "Starting $testName"
+
                         $executionTime = measure-command { & $testObject $context $testCaseObject }
+
+                        DebugLog $debugLogFilePath "Finished $testName"
 
                         Write-Host -ForegroundColor DarkGreen "Test $name Passed"
 
                         $results[$name] = @{
+                            Type = $testResultType
                             TestName = $name
-                            Status = 'Passed'
+                            Status = $passedStatus
                         }
 
                         $testSucceeded = $true
@@ -358,8 +450,9 @@ function Run-Test {
                         if($_.Exception.Message.StartsWith("SKIP")) {
                             $message = $_.Exception.Message.Substring(5).Trim()
                             $results[$name] = @{
+                                Type = $testResultType
                                 TestName = $name
-                                Status = 'Skipped'
+                                Status = $skippedStatus
                                 Message = $message
                             }
 
@@ -368,8 +461,9 @@ function Run-Test {
                         }
                         else {
                             $results[$name] = @{
+                                Type = $testResultType
                                 TestName = $name
-                                Status = 'Failed'
+                                Status = $failedStatus
                                 Message = $_.Exception.Message
                                 Callstack = $_.Exception.ToString()
                             }
@@ -378,6 +472,9 @@ function Run-Test {
                         }
                     }
                     finally {
+                        $status = $results[$name].Status
+                        DebugLog $debugLogFilePath "$status $testName"
+
                         try {
                             # Clear the cache after running each test
                             [NuGet.MachineCache]::Default.Clear()
@@ -387,6 +484,7 @@ function Run-Test {
                         }
 
                         if ($tests.Count -gt 1 -or $testCases.Count -gt 1 -or (!$testSucceeded -and $counter -eq 0)) {
+                            DebugLog $debugLogFilePath "Closing solution"
                             [API.Test.VSSolutionHelper]::CloseSolution()
                         }
 
@@ -397,6 +495,8 @@ function Run-Test {
                                 Remove-Item (Join-Path $repositoryPath Assemblies) -Force -Recurse -ErrorAction SilentlyContinue
                             }
                         }
+
+                        DebugLog $debugLogFilePath "Cleaned up"
                     }
 
                     [int] $timeInMilliseconds = [System.Math]::Round($executionTime.TotalMilliseconds)
@@ -410,8 +510,16 @@ function Run-Test {
                 }
 
                 Append-JsonResult $results[$name] $testRealTimeResultsFile
+
+                DebugLog $debugLogFilePath "Logged result"
             }
         }
+    }
+    catch
+    {
+        DebugLog $debugLogFilePath $_.Exception.ToString()
+
+        Throw
     }
     finally {
         $endTime = Get-Date
@@ -421,7 +529,11 @@ function Run-Test {
         # Deleting tests
         rm function:\Test*
 
-        Write-TestResults $testRunId $results.Values $testRunOutputPath $testLogFile $LaunchResultsOnFailure
+        DebugLog $debugLogFilePath "Writing test results"
+
+        Write-TestResults $testRunId $results.Values $testRunOutputPath $testLogFile $launchResultsOnFailure $numberOfTests
+
+        DebugLog $debugLogFilePath "Wrote test results"
 
         try
         {
@@ -437,31 +549,32 @@ function Run-Test {
 
 function Write-TestResults {
     param(
-        $TestRunId,
-        $Results,
-        $ResultsDirectory,
-        $testLogFile,
-        $LaunchResultsOnFailure
+        [string] $testRunId,
+        [System.Collections.ICollection] $results,
+        [string] $resultsDirectory,
+        [string] $testLogFile,
+        [bool] $launchResultsOnFailure,
+        [int] $expectedTotalTestCount
     )
 
     # Show failed tests first
-    $Results = $Results.GetEnumerator() | Sort-Object -Property Message -Descending
+    $sortedResults = $results.GetEnumerator() | Sort-Object -Property Message -Descending
 
-    $HtmlResultPath = Join-Path $ResultsDirectory "Results.html"
-    Write-HtmlResults $TestRunId $Results $HtmlResultPath
+    $HtmlResultPath = Join-Path $resultsDirectory "Results.html"
+    Write-HtmlResults $testRunId $sortedResults $HtmlResultPath
 
-    $TextResultPath = Join-Path $ResultsDirectory "TestResults.txt"
-    Write-JsonResults $TestRunId $Results $TextResultPath
+    $TextResultPath = Join-Path $resultsDirectory "TestResults.txt"
+    Write-JsonResults Results $TextResultPath
 
     $passed = 0
     $failed = 0
     $skipped = 0
 
-    $rows = $Results | % {
-        if ($_.Status -eq 'Skipped') {
+    $rows = $sortedResults | % {
+        if ($_.Status -eq $skippedStatus) {
             $skipped++
         }
-        elseif ($_.Status -eq 'Failed') {
+        elseif ($_.Status -eq $failedStatus) {
             $failed++
         }
         else {
@@ -469,11 +582,25 @@ function Write-TestResults {
         }
     }
 
-    $resultMessage = "Ran $($Results.Count) Tests and/or Test cases, $passed Passed, $failed Failed, $skipped Skipped. See '$HtmlResultPath' or '$TextResultPath' for more details."
-    Write-Host $resultMessage
-    "$(Get-Date -format o) $resultMessage" >> $testLogFile
+    $summary = @{
+        Type = $testRunSummaryType
+        Utc = [DateTime]::UtcNow.ToString("O")
+        ExpectedTotalCount = $expectedTotalTestCount
+        ActualTotalCount = $results.Count
+        FailedCount = $failed
+        PassedCount = $passed
+        SkippedCount = $skipped
+        HtmlResultsFilePath = $HtmlResultPath
+        TextResultsFilePath = $TextResultPath
+    }
 
-    if (($fail -gt 0) -and $LaunchResultsOnFailure -and ($Results.Count -gt 1))
+    $summaryJson = $javaScriptSerializer.Serialize($summary)
+
+    $resultMessage = "Ran $($results.Count) Tests and/or Test cases, $passed Passed, $failed Failed, $skipped Skipped, $expectedTotalTestCount expected total. See '$HtmlResultPath' or '$TextResultPath' for more details."
+    Write-Host $resultMessage
+    $summaryJson >> $testLogFile
+
+    if (($fail -gt 0) -and $launchResultsOnFailure -and ($results.Count -gt 1))
     {
         [System.Diagnostics.Process]::Start($HtmlResultPath)
     }
@@ -482,35 +609,34 @@ function Write-TestResults {
 function Append-JsonResult
 {
     param(
-        $Result,
-        $Path
+        [System.Collections.Hashtable] $result,
+        [string] $filePath
     )
 
-    $line = $javaScriptSerializer.Serialize($Result)
-    $line >> $Path
+    $line = $javaScriptSerializer.Serialize($result)
+    $line >> $filePath
 }
 
 function Write-JsonResults
 {
     param(
-        $TestRunId,
-        $Results,
-        $Path
+        [System.Collections.Hashtable] $results,
+        [string] $filePath
     )
 
-    $rows = $Results | % {
+    $rows = $results | % {
        $javaScriptSerializer.Serialize($_)
     }
 
-    $rows | Out-File $Path | Out-Null
+    $rows | Out-File $filePath | Out-Null
 }
 
 function Write-HtmlResults
 {
     param(
-        $TestRunId,
-        $Results,
-        $Path
+        [string] $testRunId,
+        [System.Collections.Hashtable] $results,
+        [string] $filePath
     )
 
     $resultsTemplate = "<html>
@@ -625,11 +751,11 @@ function Write-HtmlResults
     $failed = 0
     $skipped = 0
 
-    $rows = $Results | % {
-        if ($_.Status -eq 'Skipped') {
+    $rows = $results | % {
+        if ($_.Status -eq $skippedStatus) {
             $skipped++
         }
-        elseif ($_.Status -eq 'Failed') {
+        elseif ($_.Status -eq $failedStatus) {
             $failed++
         }
         else {
@@ -646,7 +772,7 @@ function Write-HtmlResults
                          $_.Retried)
     }
 
-    [String]::Format($resultsTemplate, $TestRunId, (Split-Path $Path), $Results.Count, $passed, $failed, $skipped, [String]::Join("", $rows)) | Out-File $Path | Out-Null
+    [String]::Format($resultsTemplate, $testRunId, (Split-Path $filePath), $results.Count, $passed, $failed, $skipped, [String]::Join("", $rows)) | Out-File $filePath | Out-Null
 }
 
 function Get-PackageRepository

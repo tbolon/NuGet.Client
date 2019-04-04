@@ -88,6 +88,9 @@ $regKey32 = "HKLM:SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\*,b03f5
 $regKeyNuGet = "HKLM:SOFTWARE\Microsoft\StrongName\Verification\*,31bf3856ad364e35"
 $regKeyNuGet32 = "HKLM:SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\*,31bf3856ad364e35"
 
+$regKeyTestTool = "HKLM:SOFTWARE\Microsoft\StrongName\Verification\*,af2d2ab0170a966c"
+$regKeyTestTool32 = "HKLM:SOFTWARE\Wow6432Node\Microsoft\StrongName\Verification\*,af2d2ab0170a966c"
+
 $has32bitNode = Test-Path "HKLM:SOFTWARE\Wow6432Node"
 $regKeyFileSystem = "HKLM:SYSTEM\CurrentControlSet\Control\FileSystem"
 $enableLongPathSupport = "LongPathsEnabled"
@@ -124,6 +127,17 @@ if (-not (Test-Path $regKeyNuGet) -or ($has32bitNode -and -not (Test-Path $regKe
     if ($has32bitNode)
     {
         New-Item -Path (Split-Path $regKeyNuGet32) -Name (Split-Path -Leaf $regKeyNuGet32) -Force | Out-Null
+    }
+}
+
+if (-not (Test-Path $regKeyTestTool) -or ($has32bitNode -and -not (Test-Path $regKeyTestTool32)))
+{
+    Write-Host "Disabling StrongName Verification for NuGet test tool public key so that test-signed binaries can be used on the build machine"
+    New-Item -Path (Split-Path $regKeyTestTool) -Name (Split-Path -Leaf $regKeyTestTool) -Force | Out-Null
+
+    if ($has32bitNode)
+    {
+        New-Item -Path (Split-Path $regKeyTestTool32) -Name (Split-Path -Leaf $regKeyTestTool32) -Force | Out-Null
     }
 }
 
