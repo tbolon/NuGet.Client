@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.CodeDom.Compiler;
 using System.Collections.Generic;
 using System.IO;
@@ -15,19 +15,30 @@ namespace GenerateTestPackages
 
         static Dictionary<string, PackageInfo> _packages = new Dictionary<string, PackageInfo>();
 
-        static void Main(string[] args)
+        static int Main(string[] args)
         {
-            string path = args[0];
-            var extension = Path.GetExtension(path);
+            try
+            {
+                string path = args[0];
+                var extension = Path.GetExtension(path);
 
-            if (extension.Equals(".nuspec", StringComparison.OrdinalIgnoreCase))
-            {
-                BuildPackage(path);
+                if (extension.Equals(".nuspec", StringComparison.OrdinalIgnoreCase))
+                {
+                    BuildPackage(path);
+                }
+                else
+                {
+                    BuildDependency(path);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                BuildDependency(path);
+                Console.WriteLine(ex);
+
+                return 1;
             }
+
+            return 0;
         }
 
         private static void BuildPackage(string nuspecPath)

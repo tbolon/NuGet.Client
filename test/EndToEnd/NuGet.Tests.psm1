@@ -311,8 +311,39 @@ function Run-Test {
                     Set-Location $repositoryPath
                     # Generate any packages that might be in the repository dir
                     Get-ChildItem $repositoryPath\* -Include *.dgml,*.nuspec | %{
-                        Write-Host 'Running GenerateTestPackages.exe on ' $_.FullName '...'
-                        $p = Start-Process $generatePackagesExePath -Wait -WindowStyle Hidden -PassThru -ArgumentList $_.FullName
+                        Write-Host "Running GenerateTestPackages.exe ($generatePackagesExePath) on $($_.FullName) ..."
+
+                        $errorFilePath = Join-Path $repositoryPath 'error.log'
+                        $outputFilePath = Join-Path $repositoryPath 'output.log'
+
+                        If (Test-Path $errorFilePath)
+                        {
+                            [System.IO.File]::Delete($errorFilePath)
+                        }
+
+                        If (Test-Path $outputFilePath)
+                        {
+                            [System.IO.File]::Delete($outputFilePath)
+                        }
+
+                        $p = Start-Process $generatePackagesExePath -Wait -WindowStyle Hidden -PassThru -ArgumentList $_.FullName -RedirectStandardError $errorFilePath -RedirectStandardOutput $outputFilePath
+
+                        If (Test-Path $errorFilePath)
+                        {
+                            $stderr = [System.IO.File]::ReadAllText($errorFilePath)
+
+                            Write-Host "stderr:  $stderr"
+                        }
+
+                        If (Test-Path $outputFilePath)
+                        {
+                            $stdout = [System.IO.File]::ReadAllText($outputFilePath)
+
+                            Write-Host "stdout:  $stdout"
+                        }
+
+                        Write-Host "Exit code:  $($p.ExitCode)"
+
                         if($p.ExitCode -ne 0)
                         {
                             $generatePackagesExitCode = $p.ExitCode
