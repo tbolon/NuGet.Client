@@ -28,9 +28,7 @@ param(
     [Alias('out')]
     [string]$OutputDirectory = $PWD,
     [Parameter(Mandatory=$False)]
-    [string]$NuGetRoot,
-    [Parameter(Mandatory=$False)]
-    [string]$NuGetToolsPath
+    [string]$NuGetRoot
 )
 
 . "$PSScriptRoot\..\common.ps1"
@@ -101,15 +99,6 @@ try {
     Write-Verbose "Copying test scripts from '$ScriptsSource' to '$ScriptsDirectory'"
     & robocopy $ScriptsSource $ScriptsDirectory '*.ps1' $opts
 
-    if($NuGetToolsPath)
-    {
-        $ToolsSource = $NuGetToolsPath
-        $ToolsDirectory = Join-Path $WorkingDirectory tools
-        New-Item -ItemType Directory -Force -Path $ToolsDirectory | Out-Null
-        Write-Verbose "Copying tools from '$ToolsSource' to '$ToolsDirectory'"
-        & robocopy $ToolsSource $ToolsDirectory '*.*' $opts
-    }
-    
     if ($lastexitcode -gt 1) {
         exit 1
     }
