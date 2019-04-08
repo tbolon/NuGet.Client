@@ -68,7 +68,7 @@ namespace GenerateTestPackages
 
         private static void Write(string message)
         {
-            _log.WriteLine(string.Format("{0} {1}:  {2}", DateTime.UtcNow.ToString("O"), _stopwatch.Elapsed, message));
+            _log.WriteLine(string.Format("  {0} {1}:  {2}", DateTime.UtcNow.ToString("O"), _stopwatch.Elapsed, message));
         }
 
         private static void BuildPackage(string nuspecPath)

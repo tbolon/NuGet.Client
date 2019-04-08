@@ -377,7 +377,7 @@ function Run-Test {
                         DebugLog $debugLogFilePath "Was launched:  $wasLaunched"
                         DebugLog $debugLogFilePath "Exit code:  $generatePackagesExitCode"
 
-                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath))
+                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath, "*", [System.IO.SearchOption]::AllDirectories))
 
                         DebugLog $debugLogFilePath "Files in $directoryPath (after):  `r`n$files"
 
