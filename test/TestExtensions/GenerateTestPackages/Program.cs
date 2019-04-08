@@ -38,6 +38,7 @@ namespace GenerateTestPackages
                     string path = args[0];
 
                     Write(string.Format("Starting {0} \"{1}\"", nameof(GenerateTestPackages), path));
+                    Write($"Current directory:  {Environment.CurrentDirectory}");
 
                     var extension = Path.GetExtension(path);
 
@@ -127,6 +128,8 @@ namespace GenerateTestPackages
                 {
                     packageBuilder.Save(nupkgStream);
                 }
+
+                Write($"Created package {nupkgPath}");
             }
             try
             {
