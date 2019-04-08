@@ -351,8 +351,8 @@ function Run-Test {
 
                         DebugLog $debugLogFilePath "Loop point 3"
 
-                        $directoryPath = [System.IO.Path]::GetDirectoryName($generatePackagesLogFilePath)
-                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath))
+                        $directoryPath = [System.IO.Path]::Combine($repositoryPath)
+                        $files = [string]::Join([Environment]::NewLine, [System.IO.Directory]::GetFiles($directoryPath, "*", [System.IO.SearchOption]::AllDirectories))
 
                         DebugLog $debugLogFilePath "Files in $directoryPath (before):  `r`n$files"
 
