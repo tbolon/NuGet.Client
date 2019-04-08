@@ -358,6 +358,7 @@ function Run-Test {
 
                         $pinfo = New-Object System.Diagnostics.ProcessStartInfo
                         $pinfo.FileName = $generatePackagesExePath
+                        $pinfo.WorkingDirectory = $repositoryPath
                         $pinfo.RedirectStandardError = $True
                         $pinfo.RedirectStandardOutput = $True
                         $pinfo.UseShellExecute = $False
