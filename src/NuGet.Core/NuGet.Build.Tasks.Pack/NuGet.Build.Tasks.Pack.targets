@@ -318,8 +318,9 @@ Copyright (c) .NET Foundation. All rights reserved.
           Returns="@(_ProjectPathWithVersion)">
     <ItemGroup>
       <_ProjectPathWithVersion Include="$(MSBuildProjectFullPath)">
-        <ProjectVersion Condition="'$(PackageVersion)' != ''">$(PackageVersion)</ProjectVersion>
-        <ProjectVersion Condition="'$(PackageVersion)' == ''">1.0.0</ProjectVersion>
+        <ProjectVersion Condition="'$(ProjectVersion)' == ''">$(PackageDependencyVersion)</ProjectVersion>
+        <ProjectVersion Condition="'$(ProjectVersion)' == ''">$(PackageVersion)</ProjectVersion>
+        <ProjectVersion Condition="'$(ProjectVersion)' == ''">1.0.0</ProjectVersion>
       </_ProjectPathWithVersion>
     </ItemGroup>
   </Target>

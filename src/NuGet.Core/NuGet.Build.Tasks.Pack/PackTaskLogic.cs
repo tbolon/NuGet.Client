@@ -803,13 +803,20 @@ namespace NuGet.Build.Tasks.Pack
                         continue;
                     }
 
-                    var versionToUse = targetLibrary.Version;
+                    var rangeToUse = new VersionRange(targetLibrary.Version);
 
                     // Use the project reference version obtained at build time if it exists, otherwise fallback to the one in assets file. 
                     if (projectRefToVersionMap.TryGetValue(projectReference.ProjectPath, out var projectRefVersion))
                     {
-                        versionToUse = NuGetVersion.Parse(projectRefVersion);
+                        // First we try to use the projectRefVersion as a Version Range, to allow the referenced project to define the entire range
+                        if (!VersionRange.TryParse(projectRefVersion, out rangeToUse))
+                        {
+                            // Else, we fallback to parsing the range as a simplier version the creating a default range "[x,)"
+                            var versionToUse = NuGetVersion.Parse(projectRefVersion);
+                            rangeToUse = new VersionRange(versionToUse);
+                        }
                     }
+
                     // TODO: Implement <TreatAsPackageReference>false</TreatAsPackageReference>
                     //   https://github.com/NuGet/Home/issues/3891
                     //
@@ -818,7 +825,7 @@ namespace NuGet.Build.Tasks.Pack
                     {
                         LibraryRange = new LibraryRange(
                             targetLibrary.Name,
-                            new VersionRange(versionToUse),
+                            rangeToUse,
                             LibraryDependencyTarget.All),
                         IncludeType = projectReference.IncludeAssets & ~projectReference.ExcludeAssets,
                         SuppressParent = projectReference.PrivateAssets
